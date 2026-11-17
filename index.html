@@ -1,0 +1,570 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f5f0">
+  <meta name="description" content="RAJA — third-year Computer Science & Engineering student on the path to becoming an AI Engineer. Exploring Generative AI, useful applications, and thoughtful software.">
+  <title>RAJA — AI Engineer in the Making</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --paper: #f4f5f0;
+      --paper-2: #ebece5;
+      --ink: #15191d;
+      --muted: #626a6d;
+      --line: #d8dbd3;
+      --blue: #4358ed;
+      --blue-deep: #2938b8;
+      --lime: #d8fb69;
+      --white: #fff;
+      --shadow: 0 22px 60px rgba(25, 34, 46, .10);
+      --sans: 'DM Sans', Arial, sans-serif;
+      --display: 'Space Grotesk', 'DM Sans', sans-serif;
+      --mono: 'DM Mono', monospace;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 92px; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+    body.menu-open { overflow: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    .wrap { width: min(1240px, calc(100% - 96px)); margin: 0 auto; }
+    .mono { font-family: var(--mono); letter-spacing: .04em; text-transform: uppercase; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 10px; color: var(--muted); font: 500 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+    .eyebrow::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 4px rgba(67,88,237,.10); }
+
+    /* Navigation */
+    .site-header { position: sticky; top: 0; z-index: 20; backdrop-filter: blur(16px); background: rgba(244,245,240,.88); border-bottom: 1px solid rgba(216,219,211,.75); }
+    .nav { height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 28px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; font: 700 19px var(--display); letter-spacing: -.08em; }
+    .brand-mark { width: 31px; height: 31px; display: grid; place-items: center; border-radius: 10px; background: var(--ink); color: var(--lime); font: 700 13px var(--display); letter-spacing: -.08em; transform: rotate(-6deg); }
+    .brand-name { letter-spacing: .02em; }
+    .nav-links { display: flex; align-items: center; gap: 34px; color: #4f5658; font-size: 13px; font-weight: 600; }
+    .nav-links a { position: relative; padding: 9px 0; transition: color .2s ease; }
+    .nav-links a::after { content: ''; position: absolute; left: 0; right: 100%; bottom: 2px; height: 2px; background: var(--blue); transition: right .25s ease; }
+    .nav-links a:hover, .nav-links a.active { color: var(--ink); }
+    .nav-links a:hover::after, .nav-links a.active::after { right: 0; }
+    .nav-cta { display: inline-flex; align-items: center; gap: 10px; background: var(--ink); color: white; border-radius: 999px; padding: 11px 17px; font-size: 12px; font-weight: 700; transition: transform .2s ease, background .2s ease; }
+    .nav-cta:hover { transform: translateY(-2px); background: var(--blue); }
+    .nav-cta span { color: var(--lime); font-size: 16px; line-height: 10px; }
+    .menu-toggle { display: none; width: 42px; height: 42px; background: transparent; border: 1px solid var(--line); border-radius: 50%; color: var(--ink); cursor: pointer; }
+
+    /* Hero */
+    .hero { position: relative; overflow: hidden; padding: 88px 0 65px; }
+    .hero::before { content: ''; position: absolute; width: 520px; height: 520px; top: -250px; right: -110px; border-radius: 50%; background: radial-gradient(circle, rgba(216,251,105,.26), rgba(216,251,105,0) 68%); pointer-events: none; }
+    .hero-grid { display: grid; grid-template-columns: 1.04fr .96fr; align-items: center; gap: 48px; position: relative; }
+    .hero-copy { padding: 18px 0 24px; }
+    .hero h1 { max-width: 700px; margin: 24px 0 24px; font: 600 clamp(49px, 6.3vw, 82px)/.99 var(--display); letter-spacing: -.075em; }
+    .hero h1 .highlight { color: var(--blue); position: relative; white-space: nowrap; }
+    .hero h1 .highlight::after { content: ''; position: absolute; z-index: -1; left: 0; right: -3px; bottom: 5px; height: 13px; border-radius: 99px; background: var(--lime); transform: rotate(-1.3deg); }
+    .hero-lede { max-width: 520px; color: #596164; font-size: 16px; line-height: 1.8; }
+    .hero-lede strong { color: var(--ink); font-weight: 700; }
+    .hero-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 13px; margin-top: 31px; }
+    .btn { min-height: 49px; border-radius: 999px; padding: 0 20px; display: inline-flex; align-items: center; justify-content: center; gap: 12px; font-size: 13px; font-weight: 700; border: 1px solid transparent; cursor: pointer; transition: transform .2s ease, box-shadow .2s ease, background .2s ease; }
+    .btn:hover { transform: translateY(-3px); }
+    .btn-primary { background: var(--blue); color: white; box-shadow: 0 8px 18px rgba(67,88,237,.2); }
+    .btn-primary:hover { background: var(--blue-deep); box-shadow: 0 12px 24px rgba(67,88,237,.25); }
+    .btn-secondary { background: rgba(255,255,255,.55); border-color: var(--line); color: var(--ink); }
+    .btn-secondary:hover { background: white; }
+    .btn .arrow { font-size: 17px; font-weight: 400; }
+    .hero-note { margin-top: 19px; color: #858c8a; font: 10px var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+
+    /* AI application workflow visual */
+    .lab-wrap { position: relative; min-height: 490px; display: grid; place-items: center; }
+    .lab-card { width: min(100%, 490px); min-height: 405px; position: relative; overflow: hidden; border-radius: 27px; background: #171d2b; color: white; box-shadow: 0 28px 70px rgba(25,34,46,.20); transform: rotate(2deg); isolation: isolate; }
+    .lab-card::before { content: ''; position: absolute; inset: 0; z-index: -1; opacity: .2; background-image: linear-gradient(rgba(255,255,255,.10) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.10) 1px, transparent 1px); background-size: 32px 32px; mask-image: linear-gradient(to bottom, black, transparent 90%); }
+    .lab-top { display: flex; align-items: center; justify-content: space-between; padding: 22px 24px 0; color: #9ba5b9; font: 10px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .live-dot { display: inline-flex; align-items: center; gap: 7px; color: #d9fb75; }
+    .live-dot::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #d9fb75; box-shadow: 0 0 12px #d9fb75; animation: pulse 1.8s ease-in-out infinite; }
+    .app-flow { display: block; width: 100%; height: 260px; margin-top: 5px; overflow: visible; }
+
+    .lab-bottom { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 15px; padding: 0 24px 23px; }
+    .code-caption { color: #8e9bb2; font: 10px var(--mono); text-transform: uppercase; letter-spacing: .1em; }
+    .code-line { margin-top: 7px; color: #f1f4f9; font: 500 13px var(--mono); }
+    .code-line .blue { color: #9eabff; }
+    .code-line .lime { color: var(--lime); }
+    .lab-index { color: #9ba5b9; font: 10px var(--mono); text-align: right; }
+    .float-chip { position: absolute; z-index: 2; border: 1px solid rgba(255,255,255,.8); background: rgba(255,255,255,.88); backdrop-filter: blur(12px); box-shadow: 0 13px 32px rgba(25,34,46,.12); border-radius: 14px; color: var(--ink); padding: 12px 15px; display: flex; align-items: center; gap: 10px; animation: float 5s ease-in-out infinite; }
+    .float-chip.one { left: -15px; top: 72px; }
+    .float-chip.two { right: -9px; bottom: 72px; animation-delay: -2.4s; }
+    .chip-icon { display: grid; place-items: center; width: 29px; height: 29px; border-radius: 9px; background: #e8ebff; color: var(--blue); font-size: 16px; }
+    .chip-copy strong { display: block; font: 700 11px var(--display); }
+    .chip-copy small { display: block; margin-top: 2px; color: #777f80; font: 9px var(--mono); }
+
+    /* Quick facts */
+    .quickbar { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .quickbar-inner { min-height: 86px; display: grid; grid-template-columns: repeat(3,1fr); }
+    .quickfact { display: flex; align-items: center; gap: 14px; padding: 18px 30px; border-right: 1px solid var(--line); }
+    .quickfact:first-child { padding-left: 0; }
+    .quickfact:last-child { border-right: 0; }
+    .quickfact b { font: 600 20px var(--display); letter-spacing: -.06em; }
+    .quickfact span { color: var(--muted); font-size: 11px; line-height: 1.5; }
+
+    /* Section shared */
+    section.content-section { padding: 105px 0; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 35px; margin-bottom: 42px; }
+    .section-title { margin: 15px 0 0; font: 600 clamp(34px,4vw,52px)/1.05 var(--display); letter-spacing: -.065em; }
+    .section-intro { max-width: 360px; color: var(--muted); font-size: 13px; line-height: 1.8; }
+    .section-kicker { color: var(--blue); font: 500 10px var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+
+    /* About */
+    .about-grid { display: grid; grid-template-columns: .78fr 1.22fr; gap: 76px; align-items: start; }
+    .about-aside { position: sticky; top: 108px; }
+    .about-stamp { margin-top: 28px; width: 145px; height: 145px; display: grid; place-items: center; position: relative; border: 1px solid #bfc5b8; border-radius: 50%; color: var(--blue); transform: rotate(-12deg); }
+    .about-stamp::before, .about-stamp::after { content: ''; position: absolute; border: 1px dashed #c3c9bd; border-radius: 50%; inset: 8px; }
+    .about-stamp::after { inset: 18px; border-style: solid; opacity: .5; }
+    .about-stamp span { z-index: 1; text-align: center; font: 600 12px/1.4 var(--mono); letter-spacing: .04em; }
+    .about-body { padding-top: 3px; }
+    .about-body .lead { margin: 0 0 19px; font: 500 24px/1.45 var(--display); letter-spacing: -.04em; }
+    .about-body p:not(.lead) { margin: 0 0 15px; color: var(--muted); font-size: 14px; line-height: 1.9; }
+    .about-callout { margin-top: 29px; padding: 22px 24px; border-left: 3px solid var(--blue); background: #ebede6; border-radius: 0 14px 14px 0; }
+    .about-callout b { display: block; margin-bottom: 7px; font: 600 13px var(--display); }
+    .about-callout span { color: var(--muted); font-size: 12px; line-height: 1.7; }
+
+    /* Focus cards */
+    .focus-section { background: var(--paper-2); }
+    .focus-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 15px; }
+    .focus-card { min-height: 238px; padding: 26px; background: rgba(255,255,255,.66); border: 1px solid rgba(205,210,199,.8); border-radius: 18px; transition: transform .25s ease, box-shadow .25s ease, background .25s ease; }
+    .focus-card:hover { transform: translateY(-6px); background: white; box-shadow: var(--shadow); }
+    .focus-number { display: flex; align-items: center; justify-content: space-between; color: #929a93; font: 10px var(--mono); }
+    .focus-icon { width: 39px; height: 39px; display: grid; place-items: center; border-radius: 12px; background: #e7eaff; color: var(--blue); font-size: 19px; }
+    .focus-card h3 { margin: 33px 0 10px; font: 600 19px var(--display); letter-spacing: -.04em; }
+    .focus-card p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.8; }
+
+    /* Toolkit */
+    .toolkit-grid { display: grid; grid-template-columns: .85fr 1.15fr; gap: 70px; align-items: center; }
+    .toolkit-copy p { max-width: 395px; color: var(--muted); font-size: 14px; line-height: 1.9; }
+    .toolkit-note { margin-top: 20px; color: #8b928c; font: 9px var(--mono); letter-spacing: .07em; text-transform: uppercase; }
+    .toolbox { display: flex; flex-wrap: wrap; gap: 11px; }
+    .tool-pill { padding: 13px 17px; border: 1px solid var(--line); border-radius: 999px; background: rgba(255,255,255,.55); font: 600 12px var(--display); transition: all .2s ease; }
+    .tool-pill:hover { border-color: var(--blue); color: var(--blue); background: white; transform: translateY(-3px); }
+    .tool-pill.featured { background: var(--ink); color: white; border-color: var(--ink); }
+    .tool-pill.featured:hover { background: var(--blue); border-color: var(--blue); }
+
+    /* Projects */
+    .projects-section { background: #171d2b; color: white; position: relative; overflow: hidden; }
+    .projects-section::before { content: ''; position: absolute; width: 560px; height: 560px; right: -250px; top: 70px; border-radius: 50%; background: radial-gradient(circle, rgba(67,88,237,.25), transparent 68%); pointer-events: none; }
+    .projects-section .section-kicker { color: var(--lime); }
+    .projects-section .section-intro { color: #a8b0bf; }
+    .projects-section .section-title { color: white; }
+    .project-grid { position: relative; display: grid; grid-template-columns: repeat(3,1fr); gap: 15px; }
+    .project-card { min-height: 335px; padding: 24px; border: 1px solid rgba(255,255,255,.13); border-radius: 18px; background: rgba(255,255,255,.045); display: flex; flex-direction: column; transition: transform .25s ease, background .25s ease, border-color .25s ease; }
+    .project-card:hover { transform: translateY(-7px); background: rgba(255,255,255,.08); border-color: rgba(216,251,105,.45); }
+    .project-meta { display: flex; align-items: center; justify-content: space-between; color: #a8b0bf; font: 9px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .project-tag { border: 1px solid rgba(216,251,105,.35); color: var(--lime); padding: 6px 8px; border-radius: 999px; font-size: 8px; }
+    .project-art { height: 112px; display: grid; place-items: center; margin: 17px 0 7px; border-radius: 12px; background: rgba(255,255,255,.04); overflow: hidden; }
+    .project-art svg { max-width: 100%; }
+    .project-card h3 { margin: 14px 0 9px; font: 600 19px var(--display); letter-spacing: -.04em; }
+    .project-card p { margin: 0; color: #a8b0bf; font-size: 11px; line-height: 1.8; }
+    .project-foot { margin-top: auto; padding-top: 20px; color: #d8e0ed; font: 9px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .project-foot span { color: var(--lime); margin-left: 5px; }
+    .project-disclaimer { position: relative; margin: 22px 0 0; color: #929bad; font: 9px var(--mono); letter-spacing: .05em; line-height: 1.7; text-transform: uppercase; }
+
+    /* Journey */
+    .journey-grid { display: grid; grid-template-columns: .7fr 1.3fr; gap: 70px; }
+    .journey-intro p { max-width: 310px; color: var(--muted); font-size: 13px; line-height: 1.8; }
+    .timeline { border-top: 1px solid var(--line); }
+    .timeline-item { display: grid; grid-template-columns: 86px 1fr auto; gap: 24px; align-items: start; padding: 22px 0; border-bottom: 1px solid var(--line); }
+    .timeline-item .step { color: var(--blue); font: 10px var(--mono); padding-top: 5px; }
+    .timeline-item h3 { margin: 0 0 6px; font: 600 16px var(--display); letter-spacing: -.03em; }
+    .timeline-item p { margin: 0; color: var(--muted); font-size: 11px; line-height: 1.7; }
+    .timeline-item .status { padding: 6px 9px; border-radius: 999px; background: #e6e8df; color: #6d756b; font: 8px var(--mono); text-transform: uppercase; letter-spacing: .08em; white-space: nowrap; }
+    .timeline-item.completed .step { color: #43845e; }
+    .timeline-item.completed .status { background: #e4f2e7; color: #287044; }
+    .timeline-item.completed .status::before { content: '✓'; margin-right: 5px; font: 700 10px var(--sans); }
+    .timeline-item.current .step { color: var(--blue); }
+    .timeline-item.current .status { background: #e7ebff; color: var(--blue); }
+    .journey-progress { display: flex; align-items: baseline; gap: 10px; margin: 0 0 11px; color: var(--muted); font: 9px var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+    .journey-progress strong { color: #287044; font-size: 12px; }
+    .journey-progressbar { height: 7px; width: 100%; margin: 0 0 13px; overflow: hidden; border-radius: 99px; background: #e2e5dc; }
+    .journey-progressbar span { display: block; width: 75%; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #43845e, #9ccf75); }
+    .journey-progress-note { margin: -3px 0 15px; color: #43845e; font: 9px var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+    .timeline-item.completed .status { font-weight: 600; }
+
+    /* Contact */
+    .contact-section { padding: 92px 0 35px !important; }
+    .contact-panel { position: relative; overflow: hidden; border-radius: 25px; padding: 57px 62px; background: var(--lime); color: var(--ink); }
+    .contact-panel::after { content: 'RAJA'; position: absolute; right: -18px; bottom: -86px; color: rgba(21,25,29,.055); font: 700 220px/.9 var(--display); letter-spacing: -.1em; pointer-events: none; }
+    .contact-panel .section-kicker { color: #46551d; }
+    .contact-panel h2 { max-width: 680px; margin: 15px 0 18px; font: 600 clamp(38px,5vw,62px)/1 var(--display); letter-spacing: -.07em; }
+    .contact-panel p { max-width: 475px; margin: 0; color: #59623d; font-size: 13px; line-height: 1.8; }
+    .contact-actions { display: flex; flex-wrap: wrap; gap: 11px; margin-top: 28px; position: relative; z-index: 1; }
+    .contact-panel .btn-primary { background: var(--ink); box-shadow: none; }
+    .contact-panel .btn-primary:hover { background: var(--blue); }
+    .contact-panel .btn-secondary { background: rgba(255,255,255,.5); border-color: rgba(21,25,29,.13); }
+    .email-fallback { margin-top: 16px !important; font-size: 11px !important; color: #59623d !important; position: relative; z-index: 1; }
+    .email-fallback a { color: var(--ink); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
+    .footer { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 25px 0 28px; color: #808882; font: 9px var(--mono); letter-spacing: .07em; text-transform: uppercase; }
+    .footer a { color: var(--ink); transition: color .2s; }
+    .footer a:hover { color: var(--blue); }
+    .footer-links { display: flex; gap: 20px; }
+
+    /* Utility animations */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @keyframes pulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: .45; transform: scale(.75); } }
+    @keyframes float { 0%,100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-11px) rotate(1deg); } }
+
+    /* Responsive */
+    @media (max-width: 980px) {
+      .wrap { width: min(100% - 48px, 760px); }
+      .nav { height: 70px; }
+      .hero { padding-top: 65px; }
+      .hero-grid { grid-template-columns: 1fr 1fr; gap: 26px; }
+      .hero h1 { font-size: clamp(46px, 7vw, 68px); }
+      .lab-wrap { min-height: 420px; }
+      .lab-card { min-height: 365px; }
+      .app-flow { height: 225px; }
+      .float-chip.one { left: -8px; }
+      .float-chip.two { right: -8px; }
+      .about-grid, .toolkit-grid, .journey-grid { gap: 42px; }
+      .project-card { padding: 19px; }
+    }
+    @media (max-width: 700px) {
+      html { scroll-padding-top: 74px; }
+      .wrap { width: calc(100% - 36px); }
+      .nav { height: 66px; }
+      .nav-cta { display: none; }
+      .menu-toggle { display: grid; place-items: center; }
+      .nav-links { display: none; position: fixed; top: 66px; left: 0; right: 0; padding: 20px 22px 24px; background: rgba(244,245,240,.98); border-bottom: 1px solid var(--line); flex-direction: column; align-items: stretch; gap: 2px; box-shadow: 0 18px 25px rgba(20,26,31,.08); }
+      .nav-links.open { display: flex; }
+      .nav-links a { padding: 13px 5px; border-bottom: 1px solid rgba(216,219,211,.7); }
+      .nav-links a::after { display: none; }
+      .hero { padding: 58px 0 42px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 22px; }
+      .hero-copy { padding: 0; }
+      .hero h1 { max-width: 570px; margin: 20px 0 18px; font-size: clamp(47px, 12vw, 68px); }
+      .hero h1 .highlight { white-space: normal; }
+      .hero-lede { max-width: 520px; font-size: 14px; }
+      .hero-actions { margin-top: 24px; }
+      .hero-note { margin-top: 14px; }
+      .lab-wrap { min-height: 390px; margin: 3px 7px 0; }
+      .lab-card { width: 100%; min-height: 340px; transform: rotate(1deg); }
+      .app-flow { height: 210px; }
+      .lab-top { padding: 18px 19px 0; }
+      .lab-bottom { padding: 0 19px 19px; }
+      .float-chip.one { left: -10px; top: 48px; }
+      .float-chip.two { right: -8px; bottom: 46px; }
+      .quickbar-inner { grid-template-columns: 1fr; padding: 9px 0; }
+      .quickfact, .quickfact:first-child { padding: 13px 2px; border-right: 0; border-bottom: 1px solid var(--line); }
+      .quickfact:last-child { border-bottom: 0; }
+      section.content-section { padding: 75px 0; }
+      .section-head { display: block; margin-bottom: 30px; }
+      .section-intro { margin-top: 18px; }
+      .about-grid, .toolkit-grid, .journey-grid { grid-template-columns: 1fr; gap: 27px; }
+      .about-aside { position: static; }
+      .about-stamp { width: 112px; height: 112px; margin-top: 20px; }
+      .about-stamp span { font-size: 9px; }
+      .about-body .lead { font-size: 21px; }
+      .focus-grid, .project-grid { grid-template-columns: 1fr; }
+      .focus-card { min-height: 205px; }
+      .focus-card h3 { margin-top: 25px; }
+      .toolkit-grid { gap: 28px; }
+      .toolbox { gap: 8px; }
+      .tool-pill { padding: 11px 14px; font-size: 11px; }
+      .project-card { min-height: 320px; }
+      .project-art { height: 120px; }
+      .timeline-item { grid-template-columns: 50px 1fr; gap: 13px; }
+      .timeline-item .status { grid-column: 2; justify-self: start; }
+      .contact-section { padding: 58px 0 22px !important; }
+      .contact-panel { padding: 37px 25px; border-radius: 19px; }
+      .contact-panel::after { font-size: 130px; bottom: -49px; right: -13px; }
+      .footer { align-items: flex-start; flex-direction: column; gap: 13px; }
+    }
+    @media (max-width: 390px) {
+      .wrap { width: calc(100% - 28px); }
+      .hero h1 { font-size: 45px; }
+      .lab-wrap { min-height: 350px; margin-inline: 3px; }
+      .lab-card { min-height: 318px; }
+      .app-flow { height: 187px; }
+      .float-chip { padding: 9px 11px; }
+      .float-chip.one { left: -5px; }
+      .float-chip.two { right: -5px; }
+      .chip-icon { width: 25px; height: 25px; }
+      .chip-copy strong { font-size: 10px; }
+      .chip-copy small { font-size: 8px; }
+      .quickfact b { font-size: 18px; }
+      .contact-actions .btn { width: 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap nav">
+      <a class="brand" href="#home" aria-label="RAJA home">
+        <span class="brand-mark">R.</span><span class="brand-name">RAJA</span>
+      </a>
+      <nav class="nav-links" id="navLinks" aria-label="Main navigation">
+        <a href="#about">About</a>
+        <a href="#focus">Focus</a>
+        <a href="#projects">Projects</a>
+        <a href="#journey">Journey</a>
+      </nav>
+      <a class="nav-cta" href="#contact">Let's connect <span>↗</span></a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="wrap hero-grid">
+        <div class="hero-copy reveal">
+          <span class="eyebrow">Computer Science · Year 03</span>
+          <h1>Curious mind.<br>Code-driven.<br><span class="highlight">AI-focused.</span></h1>
+          <p class="hero-lede">Hey, I'm <strong>Raja</strong> — a third-year Computer Science & Engineering student working towards becoming an <strong>AI Engineer</strong>. I’m learning how to turn code, APIs, and ideas into useful AI-powered applications.</p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#projects">Explore my work <span class="arrow">↘</span></a>
+            <a class="btn btn-secondary" href="#contact">Get in touch <span class="arrow">↗</span></a>
+          </div>
+          <div class="hero-note">Currently learning · Always building · Open to opportunities</div>
+        </div>
+
+        <div class="lab-wrap reveal" aria-label="Decorative AI application workflow illustration">
+          <div class="float-chip one">
+            <span class="chip-icon">⌘</span><span class="chip-copy"><strong>Think in systems</strong><small>CS FUNDAMENTALS</small></span>
+          </div>
+          <div class="lab-card">
+            <div class="lab-top"><span>RAJA / AI APP STUDIO</span><span class="live-dot">IN PROGRESS</span></div>
+            <svg class="app-flow" viewBox="0 0 440 260" role="img" aria-label="Prompt to AI response application workflow">
+              <defs>
+                <linearGradient id="flowGlow" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#d8fb69" stop-opacity=".24"/><stop offset="1" stop-color="#4358ed" stop-opacity=".04"/></linearGradient>
+                <filter id="softGlow"><feGaussianBlur stdDeviation="7" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              </defs>
+              <circle cx="220" cy="128" r="112" fill="url(#flowGlow)"/>
+              <path d="M150 119H194M246 119H292" stroke="#d8fb69" stroke-width="2" stroke-linecap="round" stroke-dasharray="4 6"/>
+              <path d="m185 112 9 7-9 7M283 112l9 7-9 7" stroke="#d8fb69" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect x="34" y="72" width="118" height="94" rx="12" fill="#252e45" stroke="#6474df"/>
+              <text x="49" y="96" fill="#9ba8ff" font-family="DM Mono, monospace" font-size="8" letter-spacing="1.1">YOUR PROMPT</text>
+              <rect x="49" y="110" width="83" height="5" rx="2.5" fill="#dfe4f5" opacity=".82"/>
+              <rect x="49" y="124" width="67" height="5" rx="2.5" fill="#9ba8ff" opacity=".8"/>
+              <rect x="49" y="138" width="75" height="5" rx="2.5" fill="#9ba8ff" opacity=".45"/>
+              <rect x="194" y="55" width="52" height="128" rx="15" fill="#2a3345" stroke="#d8fb69" stroke-width="1.4" filter="url(#softGlow)"/>
+              <circle cx="220" cy="91" r="13" fill="#d8fb69" opacity=".16" stroke="#d8fb69"/>
+              <path d="m220 81 3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7Z" fill="#d8fb69"/>
+              <text x="220" y="126" text-anchor="middle" fill="#f3f5fa" font-family="DM Mono, monospace" font-size="8" letter-spacing=".5">AI API</text>
+              <rect x="207" y="139" width="26" height="4" rx="2" fill="#9ba8ff" opacity=".7"/>
+              <rect x="292" y="72" width="114" height="94" rx="12" fill="#252e45" stroke="#6474df"/>
+              <text x="307" y="96" fill="#d8fb69" font-family="DM Mono, monospace" font-size="8" letter-spacing="1.1">RESPONSE</text>
+              <rect x="307" y="110" width="82" height="5" rx="2.5" fill="#f1f4f9" opacity=".82"/>
+              <rect x="307" y="124" width="70" height="5" rx="2.5" fill="#9ba8ff" opacity=".8"/>
+              <rect x="307" y="138" width="78" height="5" rx="2.5" fill="#9ba8ff" opacity=".45"/>
+              <g fill="#9ba8ff" font-family="DM Mono, monospace" font-size="8" letter-spacing="1">
+                <text x="35" y="194">INPUT</text><text x="194" y="206" fill="#d8fb69">INTEGRATION</text><text x="354" y="194">OUTPUT</text>
+              </g>
+              <path d="M38 215H402" stroke="#6374d9" stroke-opacity=".35" stroke-dasharray="3 7"/>
+              <circle cx="38" cy="215" r="3" fill="#d8fb69"/><circle cx="402" cy="215" r="3" fill="#d8fb69"/>
+            </svg>
+            <div class="lab-bottom">
+              <div><div class="code-caption">Ideas become useful tools</div><div class="code-line"><span class="blue">assistant</span>.<span class="lime">respond</span>( prompt )<span class="lime">;</span></div></div>
+              <div class="lab-index">FLOW. 001<br>BUILD / TEST</div>
+            </div>
+          </div>
+          <div class="float-chip two">
+            <span class="chip-icon" style="background:#eff8d8;color:#536b1b">✳</span><span class="chip-copy"><strong>Make it useful</strong><small>AI APP JOURNEY</small></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="quickbar">
+      <div class="wrap quickbar-inner">
+        <div class="quickfact"><b>03 / 04</b><span>Year of my<br>undergraduate journey</span></div>
+        <div class="quickfact"><b>CSE</b><span>Computer Science<br>& Engineering</span></div>
+        <div class="quickfact"><b>AI APPS</b><span>The direction I'm<br>growing towards</span></div>
+      </div>
+    </div>
+
+    <section class="content-section" id="about">
+      <div class="wrap about-grid">
+        <div class="about-aside reveal">
+          <span class="section-kicker">01 / A little about me</span>
+          <h2 class="section-title">Learning by<br>building.</h2>
+          <div class="about-stamp"><span>STAY<br>CURIOUS<br>✳ ALWAYS</span></div>
+        </div>
+        <div class="about-body reveal">
+          <p class="lead">I’m at the point where computer science starts connecting with the real world — and that’s what excites me.</p>
+          <p>As a third-year CSE student, I’m strengthening the fundamentals that make great engineers: problem-solving, data structures, algorithms, databases, and clean software design. Alongside that, I’m exploring Generative AI and the ways intelligent tools can solve everyday problems.</p>
+          <p>I’m especially interested in prompt design, language-model APIs, connecting tools through software, and turning ideas into reliable applications. I don’t expect to know everything yet. I’m here to stay curious, ask better questions, and get a little better with every build.</p>
+          <div class="about-callout"><b>My north star</b><span>Become an AI Engineer who understands the fundamentals, experiments with intent, and builds technology that solves meaningful problems.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section focus-section" id="focus">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div><span class="section-kicker">02 / Areas I'm exploring</span><h2 class="section-title">The things that<br>keep me curious.</h2></div>
+          <p class="section-intro">A mix of core computer science, Generative AI, and practical software development. The goal is to build useful things with strong engineering foundations.</p>
+        </div>
+        <div class="focus-grid">
+          <article class="focus-card reveal"><div class="focus-number"><span>FOCUS / 01</span><span class="focus-icon">⌁</span></div><h3>Generative AI</h3><p>Exploring LLM APIs, prompt design, structured outputs, and ways to add helpful AI features to real applications.</p></article>
+          <article class="focus-card reveal"><div class="focus-number"><span>FOCUS / 02</span><span class="focus-icon">✳</span></div><h3>AI-powered Applications</h3><p>Connecting language-model APIs with useful interfaces, clear instructions, and practical user workflows.</p></article>
+          <article class="focus-card reveal"><div class="focus-number"><span>FOCUS / 03</span><span class="focus-icon">⌘</span></div><h3>Software Engineering</h3><p>Writing structured code, understanding APIs, using version control, and learning how to ship dependable tools.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section" id="toolkit">
+      <div class="wrap toolkit-grid">
+        <div class="toolkit-copy reveal">
+          <span class="section-kicker">03 / My toolkit</span>
+          <h2 class="section-title">Learning the<br>right tools.</h2>
+          <p>Tools are only useful when the fundamentals are clear. This is a starter snapshot of the programming tools and concepts I’m using to grow as an AI-focused software developer.</p>
+          <div class="toolkit-note">Edit these tags to match your actual experience.</div>
+        </div>
+        <div class="toolbox reveal" aria-label="Technologies and concepts">
+          <span class="tool-pill featured">Python</span><span class="tool-pill">C++</span><span class="tool-pill">SQL</span>
+          <span class="tool-pill">JavaScript</span><span class="tool-pill">HTML & CSS</span><span class="tool-pill">Git & GitHub</span>
+          <span class="tool-pill">DSA</span><span class="tool-pill">OOP</span><span class="tool-pill">REST APIs</span>
+          <span class="tool-pill featured">Prompt Design</span><span class="tool-pill">LLM APIs</span><span class="tool-pill">Generative AI</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section projects-section" id="projects">
+      <div class="wrap">
+        <div class="section-head reveal">
+          <div><span class="section-kicker">04 / The project lab</span><h2 class="section-title">Ideas worth<br>experimenting with.</h2></div>
+          <p class="section-intro">A few starter project directions that combine my CSE foundations with practical Generative AI. I’ll replace these concepts with my own builds as they take shape.</p>
+        </div>
+        <div class="project-grid">
+          <article class="project-card reveal">
+            <div class="project-meta"><span>01 / LLM APPLICATION</span><span class="project-tag">STARTER IDEA</span></div>
+            <div class="project-art" aria-hidden="true">
+              <svg width="210" height="100" viewBox="0 0 210 100" fill="none"><rect x="51" y="9" width="82" height="77" rx="9" fill="#252e45" stroke="#6474df"/><path d="M68 27h47M68 37h34M68 47h42" stroke="#9ba8ff" stroke-width="3" stroke-linecap="round"/><rect x="104" y="52" width="52" height="33" rx="7" fill="#d8fb69"/><path d="M115 63h30M115 70h20" stroke="#222b39" stroke-width="2" stroke-linecap="round"/><circle cx="48" cy="72" r="6" fill="#6576e8"/><path d="M37 72h-9m20-11v-9m0 40v-9" stroke="#a5b0ff" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <h3>Campus Knowledge Copilot</h3><p>A study companion that answers questions from class notes using an LLM API, clear prompts, and a focused student-friendly interface.</p>
+            <div class="project-foot">EXPLORE <span>↗</span> &nbsp; / &nbsp; LEARNING CONCEPT</div>
+          </article>
+          <article class="project-card reveal">
+            <div class="project-meta"><span>02 / AI PRODUCT</span><span class="project-tag">STARTER IDEA</span></div>
+            <div class="project-art" aria-hidden="true">
+              <svg width="210" height="100" viewBox="0 0 210 100" fill="none"><rect x="60" y="12" width="90" height="76" rx="8" fill="#252e45" stroke="#6474df"/><path d="M76 30v-7h8M134 23h8v7M76 70v7h8M134 77h8v-7" stroke="#d8fb69" stroke-width="2" stroke-linecap="round"/><circle cx="105" cy="50" r="19" stroke="#9ba8ff" stroke-width="2"/><path d="M105 36v28M91 50h28" stroke="#9ba8ff" stroke-width="1.5"/><circle cx="105" cy="50" r="6" fill="#d8fb69"/><circle cx="38" cy="50" r="5" fill="#6778e7"/><circle cx="172" cy="50" r="5" fill="#d8fb69"/><path d="M45 50h15m90 0h15" stroke="#7e8ced" stroke-dasharray="3 4"/></svg>
+            </div>
+            <h3>ResumeCraft Studio</h3><p>A resume helper that turns a role description and a student’s experience into tailored bullet points, application drafts, and a clean checklist.</p>
+            <div class="project-foot">EXPLORE <span>↗</span> &nbsp; / &nbsp; LEARNING CONCEPT</div>
+          </article>
+          <article class="project-card reveal">
+            <div class="project-meta"><span>03 / AUTOMATION</span><span class="project-tag">STARTER IDEA</span></div>
+            <div class="project-art" aria-hidden="true">
+              <svg width="210" height="100" viewBox="0 0 210 100" fill="none"><rect x="43" y="12" width="124" height="76" rx="8" fill="#252e45" stroke="#6474df"/><path d="M58 69h94" stroke="#57647d"/><path d="M63 63 82 49 99 56 120 31 143 38 156 25" stroke="#d8fb69" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="120" cy="31" r="4" fill="#d8fb69"/><circle cx="156" cy="25" r="4" fill="#9ba8ff"/><path d="M59 27h28" stroke="#9ba8ff" stroke-width="3" stroke-linecap="round"/></svg>
+            </div>
+            <h3>Workflow Buddy</h3><p>A lightweight assistant that turns plain-language requests into organized tasks and connects everyday tools through simple API workflows.</p>
+            <div class="project-foot">EXPLORE <span>↗</span> &nbsp; / &nbsp; LEARNING CONCEPT</div>
+          </article>
+        </div>
+        <p class="project-disclaimer">Project cards are starter concepts, not claims of completed work. Update the titles, descriptions, status, and links when you add your own projects.</p>
+      </div>
+    </section>
+
+    <section class="content-section" id="journey">
+      <div class="wrap journey-grid">
+        <div class="journey-intro reveal"><span class="section-kicker">05 / The roadmap</span><h2 class="section-title">Three milestones<br>completed.</h2><p>I’ve completed the first three stages of my AI engineering journey — strengthening my CS fundamentals, learning to connect software through APIs, and exploring Generative AI. Now I’m focused on turning that knowledge into useful, end-to-end applications.</p></div>
+        <div class="timeline reveal">
+          <div class="journey-progress"><strong>03 / 04 COMPLETE</strong><span>75% of the roadmap</span></div>
+          <div class="journey-progressbar" role="progressbar" aria-label="AI engineering journey progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="75"><span></span></div>
+          <p class="journey-progress-note">✓ First three milestones completed · Step 04 is in progress</p>
+          <div class="timeline-item completed"><div class="step">STEP 01</div><div><h3>Strengthened the core</h3><p>Built a foundation in programming, data structures and algorithms, object-oriented programming, databases, and problem-solving.</p></div><span class="status">Completed</span></div>
+          <div class="timeline-item completed"><div class="step">STEP 02</div><div><h3>Learned to build with APIs</h3><p>Explored Python workflows, REST APIs, JSON, and how different software services can work together.</p></div><span class="status">Completed</span></div>
+          <div class="timeline-item completed"><div class="step">STEP 03</div><div><h3>Explored Generative AI</h3><p>Explored LLM APIs, prompt design, structured outputs, and responsible ways to add AI features to applications.</p></div><span class="status">Completed</span></div>
+          <div class="timeline-item current"><div class="step">STEP 04</div><div><h3>Ship useful AI products</h3><p>Turn what I've learned into end-to-end applications using APIs, deployment, monitoring, and thoughtful UX.</p></div><span class="status">Current focus</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section contact-section" id="contact">
+      <div class="wrap">
+        <div class="contact-panel reveal">
+          <span class="section-kicker">06 / Have an idea?</span>
+          <h2>Let's make something intelligent.</h2>
+          <p>I'm always happy to connect with fellow learners, developers, mentors, and people building interesting things with technology.</p>
+          <div class="contact-actions">
+            <a class="btn btn-primary" href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=rajakumarrai90%40gmail.com&amp;su=Hello%20Raja%20-%20Let%27s%20Connect" target="_blank" rel="noopener noreferrer" aria-label="Open a new Gmail compose addressed to Raja">Say hello <span class="arrow">↗</span></a>
+            <a class="btn btn-secondary" href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer">GitHub profile <span class="arrow">↗</span></a>
+            <a class="btn btn-secondary" href="https://www.linkedin.com/in/yourusername/" target="_blank" rel="noopener noreferrer">LinkedIn <span class="arrow">↗</span></a>
+          </div>
+          <p class="email-fallback">Gmail compose should open in a new tab. Prefer another email app? <a href="mailto:rajakumarrai90@gmail.com?subject=Hello%20Raja%20-%20Let%27s%20Connect">Email me at rajakumarrai90@gmail.com</a>.</p>
+        </div>
+        <footer class="footer">
+          <span>© <span id="year"></span> RAJA · BUILT WITH CURIOSITY</span>
+          <div class="footer-links"><a href="#home">Back to top ↑</a><span>AI ENGINEER IN THE MAKING</span></div>
+        </footer>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (() => {
+      const menuToggle = document.getElementById('menuToggle');
+      const navLinks = document.getElementById('navLinks');
+      const navItems = [...document.querySelectorAll('.nav-links a')];
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Mobile navigation
+      menuToggle.addEventListener('click', () => {
+        const isOpen = navLinks.classList.toggle('open');
+        document.body.classList.toggle('menu-open', isOpen);
+        menuToggle.setAttribute('aria-expanded', String(isOpen));
+        menuToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
+      });
+      navItems.forEach(link => link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        document.body.classList.remove('menu-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        menuToggle.setAttribute('aria-label', 'Open menu');
+      }));
+
+      // Reveal elements as they enter the viewport
+      const revealEls = document.querySelectorAll('.reveal');
+      if ('IntersectionObserver' in window && !reduceMotion) {
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.12 });
+        revealEls.forEach(el => revealObserver.observe(el));
+      } else {
+        revealEls.forEach(el => el.classList.add('visible'));
+      }
+
+      // Highlight the section currently in view
+      const sections = [...document.querySelectorAll('main section[id]')];
+      if ('IntersectionObserver' in window) {
+        const sectionObserver = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              navItems.forEach(link => link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`));
+            }
+          });
+        }, { rootMargin: '-35% 0px -55% 0px' });
+        sections.forEach(section => sectionObserver.observe(section));
+      }
+
+      // Close mobile menu with Escape
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && navLinks.classList.contains('open')) {
+          navLinks.classList.remove('open');
+          document.body.classList.remove('menu-open');
+          menuToggle.setAttribute('aria-expanded', 'false');
+          menuToggle.setAttribute('aria-label', 'Open menu');
+          menuToggle.focus();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
